@@ -11,12 +11,14 @@ namespace Plugins.AVT.FetchGoogleSheet
         public string sheetUrl;
         public List<UnitData> units;
 
+        #if UNITY_EDITOR
         [MenuItem("CONTEXT/TestDataSO/Fetch")]
         public static void Fetch(MenuCommand command)
         {
             var _ = (TestDataSO)command.context;
             _.SheetToList(_.sheetUrl, _.units);
         }
+        #endif
     }
 
     [System.Serializable]

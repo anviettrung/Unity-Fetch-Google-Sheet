@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+#if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
+#endif
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +12,9 @@ namespace Plugins.AVT.FetchGoogleSheet
     {
         public static void GetRawTextFromUrl(this UnityEngine.Object obj, string url, Action<bool, string> onGetResult)
         {
+            #if UNITY_EDITOR
             EditorCoroutineUtility.StartCoroutine(IGetRequest(url, onGetResult), obj);
+            #endif
         }
 
         private static IEnumerator IGetRequest(string url, Action<bool, string> onGetResult)
