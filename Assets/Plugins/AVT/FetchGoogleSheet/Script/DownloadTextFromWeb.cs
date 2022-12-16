@@ -19,18 +19,16 @@ namespace Plugins.AVT.FetchGoogleSheet
 
         private static IEnumerator IGetRequest(string url, Action<bool, string> onGetResult)
         {
-            using (var webRequest = UnityWebRequest.Get(url))
-            {
-                // Request and wait for the desired page.
-                Debug.Log($"<b>GET</b> data from <color=yellow>{url}</color>");
+            using var webRequest = UnityWebRequest.Get(url);
+            // Request and wait for the desired page.
+            Debug.Log($"<b>GET</b> data from <color=yellow>{url}</color>");
                 
-                yield return webRequest.SendWebRequest();
+            yield return webRequest.SendWebRequest();
 
-                if (webRequest.result == UnityWebRequest.Result.Success)
-                    onGetResult?.Invoke(true, webRequest.downloadHandler.text);
-                else
-                    onGetResult?.Invoke(false, webRequest.result.ToString());
-            }
+            if (webRequest.result == UnityWebRequest.Result.Success)
+                onGetResult?.Invoke(true, webRequest.downloadHandler.text);
+            else
+                onGetResult?.Invoke(false, webRequest.result.ToString());
         }
     }
 }

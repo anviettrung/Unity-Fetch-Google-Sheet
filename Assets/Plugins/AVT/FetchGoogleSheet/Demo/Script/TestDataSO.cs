@@ -9,6 +9,7 @@ namespace Plugins.AVT.FetchGoogleSheet
     {
         [Multiline]
         public string sheetUrl;
+        public string range;
         public List<UnitData> units;
 
         #if UNITY_EDITOR
@@ -16,7 +17,23 @@ namespace Plugins.AVT.FetchGoogleSheet
         public static void Fetch(MenuCommand command)
         {
             var _ = (TestDataSO)command.context;
-            _.SheetToList(_.sheetUrl, _.units);
+            
+            // Type 1
+            //_.SheetToList(_.sheetUrl, _.units);
+
+            // Type 2
+            var block = _.range.ToSheetBlock().ToValidBlock();
+            _.GetRawTextFromUrl(_.sheetUrl, (success, text) =>
+            {
+                if (!success)
+                    return;
+                
+                FetchGoogleSheet.SheetMatrixToList(text.ToSheetMatrix().TrimSheetMatrix(block), _.units);
+                #if UNITY_EDITOR
+                EditorUtility.SetDirty(_);
+                AssetDatabase.SaveAssets();
+                #endif
+            });
         }
         #endif
     }

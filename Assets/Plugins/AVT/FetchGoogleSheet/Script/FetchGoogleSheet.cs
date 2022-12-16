@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 
 namespace Plugins.AVT.FetchGoogleSheet
 {
@@ -19,6 +20,23 @@ namespace Plugins.AVT.FetchGoogleSheet
                 
                 list.FromSheetData(result);
             });
+        }
+
+        public static void SheetMatrixToList<T>(List<List<string>> sheetMatrix, List<T> list) where T : IGoogleSheetDataSetter, new()
+        {
+            var propKeys = sheetMatrix[0].ToArray();
+            
+            list.Clear();
+            for (var i = 1; i < sheetMatrix.Count; i++)
+            {
+                var record = new T();
+                var propValues = sheetMatrix[i].ToArray();
+                record.SetDataFromSheet(SheetDataReader.CreateRecord(propKeys, propValues));
+                list.Add(record);
+            }
+#if UNITY_EDITOR
+            AssetDatabase.SaveAssets();
+#endif
         }
     }
 

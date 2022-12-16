@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sheet 1
   m_EditorClassIdentifier: 
   sheetUrl: https://docs.google.com/spreadsheets/d/e/2PACX-1vSlJ_TLZpFcxBzfiO4lNKAkMImRVNXnoyTozN9qLpOhS9eY5udyoITMzQT-3HRIeZoa18DO5rghXMsQ/pub?gid=0&single=true&output=csv
+  range: B2:D5
   units:
   - name: warrior
     health: 5
